@@ -6,8 +6,10 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const authMiddleware = require('../middleware');
 require('dotenv').config();
+
 router.post("/signup", async (req, res) => {
     try {
+        // console.log(req.body);
         const { username, email, password } = req.body;
         const user = await User.findOne({ username });
         if (user) {
@@ -33,7 +35,7 @@ router.post("/signup", async (req, res) => {
         await Account.create({ userId: newUser._id, balance: 1 + Math.random() * 1000 });
         res.status(201).json({ message: "User created successfully", token });
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
@@ -52,7 +54,7 @@ router.post("/signin", async (req, res) => {
         const token = jwt.sign({ id: user._id.toString() }, process.env.JWT_SECRET, { expiresIn: "1h" })
         res.status(200).json({ message: "signin successful", token });
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
@@ -63,8 +65,6 @@ router.put("/update", authMiddleware, async (req, res) => {
         if (!userID) {
             return res.status(400).json({ error: "User ID is required" });
         }
-
-
         // Create an object to store updated fields
         let updateFields = {};
 
@@ -87,7 +87,7 @@ router.put("/update", authMiddleware, async (req, res) => {
         }
         res.status(200).json({ message: "User updated successfully", user: updatedUser });
     } catch (error) {
-        console.error("Update error:", error);
+        // console.error("Update error:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
@@ -99,7 +99,6 @@ router.get('/bulk', async (req, res) => {
             { username: { $regex: filter } }
         ]
     });
-
     res.json({       //this is done so as not to return passwords of user to the frontend.
         user: users.map(user => ({
             id: user._id,
@@ -109,4 +108,11 @@ router.get('/bulk', async (req, res) => {
     })
 })
 
+router.get("/getUser", authMiddleware, async (req, res) => {
+    // console.log("U are inside getUser",req.userID);
+    const user = await User.findOne({
+      _id: req.userID,
+    });
+    res.json(user);
+  });
 module.exports = router;

@@ -6,22 +6,21 @@ const { default: mongoose } = require('mongoose');
 router.get('/balance', authMiddleware, async (req, res) => {
     try {
         const { userID } = req;
-        // console.log(userID);
+        // console.log("user is",userID);
         if (!userID) {
             return res.status(400).json({ error: "User ID is required" });
         }
         const account = await Account.find({ userId: new mongoose.Types.ObjectId(userID) });
-        // console.log(account[0].balance);
+        // console.log("account is ",account);
         if (!account) {
             return res.status(404).json({ error: "Account not found" });
         }
         res.status(200).json({ balance: account[0].balance });
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 })
-
 
 router.post("/transfer", async (req, res) => {
     try {
@@ -33,7 +32,6 @@ router.post("/transfer", async (req, res) => {
         if (senderAccount.balance < amount) {
             res.status(400).json({ error: "Insufficient balance" });
         }
-
         const receiverAccount = Account.findById(receiverId);
         if (!receiverAccount) {
             res.status(404).json({ error: "Receiver account not found" });
@@ -42,7 +40,7 @@ router.post("/transfer", async (req, res) => {
         await Account.updateOne({ _id: receiverId }, { $inc: { balance: amount } });
         res.status(200).json({ message: "Transfer successful" });
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 })
