@@ -87,7 +87,7 @@ router.put("/update", authMiddleware, async (req, res) => {
         }
         res.status(200).json({ message: "User updated successfully", user: updatedUser });
     } catch (error) {
-        // console.error("Update error:", error);
+        
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
