@@ -47,16 +47,21 @@ function User({ user }) {
         <div className="rounded-full h-12 w-12 bg-slate-200 flex items-center justify-center text-lg font-semibold text-gray-700">
           {user.username?.charAt(0).toUpperCase()}
         </div>
-        <span className="text-lg font-medium text-gray-800 whitespace-nowrap overflow-hidden">
-          {user.username}
-        </span>
+        <div className="flex items-center justify-between w-full">
+          <span className="text-lg font-medium text-gray-800 whitespace-nowrap overflow-hidden">
+            {user.username}
+          </span>
+
+          <Button
+            onClick={() =>
+              navigate(`/send?id=${user.id}&name=${user.username}`)
+            }
+            label="Send Money"
+            className="w-auto px-4 py-2 text-sm"
+          />
+        </div>
       </div>
       {/* Send Money Button */}
-      <Button 
-        onClick={() => navigate(`/send?id=${user.id}&name=${user.username}`)}
-        label="Send Money"
-        className="w-auto px-4 py-2 text-sm"
-      />
     </div>
   );
 }

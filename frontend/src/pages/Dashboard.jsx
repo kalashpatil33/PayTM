@@ -10,13 +10,9 @@ export const Dashboard = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const userToken = localStorage.getItem("token");
-    // Check if token exists in local storage
     if (!userToken) {
-      // console.log("user token not found");
       navigate("/signin"); // Redirect to sign-in page if token doesn't exist
     } else {
-      // Fetch balance if token exists
-      // console.log("user token found",import.meta.env.VITE_API_URL);
       axios
         .get(import.meta.env.VITE_API_URL + "/api/v1/account/balance", {
           headers: {

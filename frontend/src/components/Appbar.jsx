@@ -8,7 +8,6 @@ export const Appbar = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const userToken = localStorage.getItem("token");
-    // Check if token exists in local storage
     if (!userToken) {
       navigate("/signin"); // Redirect to sign-in page if token doesn't exist
     } else {
@@ -28,21 +27,23 @@ export const Appbar = () => {
     navigate("/signin");
   };
   return (
-    <div className="shadow h-14 flex justify-between items-center md:px-10">
+    <div className="shadow h-14 flex justify-between items-center md:px-10 ">
       <Link to={"/dashboard"}>
         <div className="flex flex-col justify-center h-full ml-4 font-bold">
           PayTM App
         </div>
       </Link>
       <div className="flex items-center justify-center gap-2">
-        <Button label={"Sign Out"} onClick={signOutHandler} />
         <div className="flex flex-col justify-center h-full mr-4">
-        </div>
-        <div className="rounded-full h-10 w-10 p-4 bg-slate-200 flex justify-center mr-2">
-          <div className="flex flex-col justify-center h-full text-xl">
-            {/* {console.log("what is this",user)} */}
-            {user.toUpperCase()}
+          <div className="rounded-full h-10 w-10 p-4 bg-slate-200 flex justify-center mr-2">
+            <div className="flex flex-col justify-center h-full text-xl">
+              {/* {console.log("what is this",user)} */}
+              {user.toUpperCase().charAt(0)}
+            </div>
           </div>
+        </div>
+        <div className="my-8 py-2 border-red-20">
+          <Button label={"Sign Out"} onClick={signOutHandler} />
         </div>
       </div>
     </div>
